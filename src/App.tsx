@@ -1,14 +1,16 @@
 import React, { useState, useMemo } from 'react';
-import { User, Mail, Phone, FileText, Users, CheckCircle } from 'lucide-react';
+import { User, Mail, Phone, FileText, Users, CheckCircle, LayoutDashboard } from 'lucide-react';
 import { FormField } from './components/FormField';
 import { PhoneInput } from './components/PhoneInput';
 import { HostSelect } from './components/HostSelect';
 import { ProgressBar } from './components/ProgressBar';
+import { Dashboard } from './components/Dashboard';
 import { useVisitorForm } from './hooks/useVisitorForm';
 
 function App() {
   const { formData, errors, isSubmitting, updateField, submitForm } = useVisitorForm();
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [currentView, setCurrentView] = useState<'form' | 'dashboard'>('form');
 
   // Calculate progress based on filled fields
   const progress = useMemo(() => {
@@ -32,6 +34,10 @@ function App() {
     }
   };
 
+  if (currentView === 'dashboard') {
+    return <Dashboard onBackToForm={() => setCurrentView('form')} />;
+  }
+
   if (isSubmitted) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 flex items-center justify-center p-4">
@@ -43,15 +49,26 @@ function App() {
               Thank you for registering. You will receive a confirmation email shortly.
             </p>
           </div>
-          <button
-            onClick={() => {
-              setIsSubmitted(false);
-              window.location.reload();
-            }}
-            className="w-full bg-gradient-to-r from-blue-600 to-orange-500 text-white py-3 px-6 rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 text-sm sm:text-base"
-          >
-            Register Another Visitor
-          </button>
+          <div className="space-y-3">
+            <button
+              onClick={() => {
+                setIsSubmitted(false);
+                window.location.reload();
+              }}
+              className="w-full bg-gradient-to-r from-blue-600 to-orange-500 text-white py-3 px-6 rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 text-sm sm:text-base"
+            >
+              Register Another Visitor
+            </button>
+            <button
+              onClick={() => {
+                setIsSubmitted(false);
+                setCurrentView('dashboard');
+              }}
+              className="w-full bg-white border-2 border-blue-600 text-blue-600 py-3 px-6 rounded-lg font-medium hover:bg-blue-50 transition-all duration-200 text-sm sm:text-base"
+            >
+              View Dashboard
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -59,7 +76,17 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 flex items-center justify-center p-3 sm:p-4">
-      <div className="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-lg sm:max-w-xl lg:max-w-3xl">
+      <div className="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-lg sm:max-w-xl lg:max-w-3xl relative">
+        {/* Dashboard Button */}
+        <button
+          onClick={() => setCurrentView('dashboard')}
+          className="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur-sm border border-blue-200 text-blue-600 px-3 py-2 rounded-lg font-medium hover:bg-blue-50 transition-all duration-200 text-xs sm:text-sm flex items-center gap-2 shadow-sm"
+        >
+          <LayoutDashboard className="w-4 h-4" />
+          <span className="hidden sm:inline">Head to Dashboard</span>
+          <span className="sm:hidden">Dashboard</span>
+        </button>
+
         {/* Header with Large Logo */}
         <div className="bg-gradient-to-r from-blue-600 to-orange-500 p-6 sm:p-8 lg:p-12 text-center">
           <div className="mb-6 sm:mb-8">
