@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Search, Filter, Users, CheckCircle, XCircle, Clock, User, Mail, FileText, Building } from 'lucide-react';
+import { Search, Filter, Users, CheckCircle, XCircle, Clock, User, Mail, FileText, Building } from 'lucide-react';
 
 interface VisitorRecord {
   id: string;
@@ -67,13 +66,9 @@ const DUMMY_VISITORS: VisitorRecord[] = [
 ];
 
 export const Dashboard: React.FC = () => {
-  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'approved' | 'rejected' | 'pending'>('all');
 
-  const handleBackToForm = () => {
-    navigate('/');
-  };
 
   const filteredVisitors = DUMMY_VISITORS.filter(visitor => {
     const matchesSearch = visitor.visitorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -124,16 +119,7 @@ export const Dashboard: React.FC = () => {
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={handleBackToForm}
-                className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors duration-200"
-              >
-                <ArrowLeft className="w-5 h-5" />
-                <span className="hidden sm:inline font-medium">Back to Form</span>
-              </button>
-              <div className="hidden sm:block h-6 w-px bg-gray-300" />
-              <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3">
                 <img 
                   src="/smoothtel_logo.png" 
                   alt="Smoothtel Logo" 
@@ -143,7 +129,6 @@ export const Dashboard: React.FC = () => {
                   <h1 className="text-lg font-bold text-gray-900">Visitor Dashboard</h1>
                   <p className="text-sm text-gray-500">Manage visitor registrations</p>
                 </div>
-              </div>
             </div>
           </div>
         </div>

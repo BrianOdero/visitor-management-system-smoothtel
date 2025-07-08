@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Mail, Phone, FileText, Users, CheckCircle, LayoutDashboard } from 'lucide-react';
+import { User, Mail, Phone, FileText, Users, CheckCircle } from 'lucide-react';
 import { FormField } from '../components/FormField';
 import { PhoneInput } from '../components/PhoneInput';
 import { HostSelect } from '../components/HostSelect';
@@ -34,9 +34,6 @@ export const VisitorForm: React.FC = () => {
     }
   };
 
-  const handleDashboardClick = () => {
-    navigate('/dashboard');
-  };
 
   const handleRegisterAnother = () => {
     setIsSubmitted(false);
@@ -80,17 +77,7 @@ export const VisitorForm: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 flex items-center justify-center p-3 sm:p-4">
-      <div className="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-lg sm:max-w-xl lg:max-w-3xl relative">
-        {/* Dashboard Button */}
-        <button
-          onClick={handleDashboardClick}
-          className="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur-sm border border-blue-200 text-blue-600 px-3 py-2 rounded-lg font-medium hover:bg-blue-50 transition-all duration-200 text-xs sm:text-sm flex items-center gap-2 shadow-sm"
-        >
-          <LayoutDashboard className="w-4 h-4" />
-          <span className="hidden sm:inline">Head to Dashboard</span>
-          <span className="sm:hidden">Dashboard</span>
-        </button>
-
+      <div className="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-lg sm:max-w-xl lg:max-w-3xl">
         {/* Header with Large Logo */}
         <div className="bg-gradient-to-r from-blue-600 to-orange-500 p-6 sm:p-8 lg:p-12 text-center">
           <div className="mb-6 sm:mb-8">
