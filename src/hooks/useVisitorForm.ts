@@ -76,8 +76,8 @@ const submitForm = async (): Promise<boolean> => {
   setIsSubmitting(true);
 
   try {
-    // Add timeout based on connection speed
-    const timeoutDuration = isSlowConnection ? 30000 : 15000;
+    // Add timeout based on connection speed - increased for better reliability
+    const timeoutDuration = isSlowConnection ? 60000 : 30000;
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeoutDuration);
 
@@ -166,8 +166,6 @@ const submitForm = async (): Promise<boolean> => {
       }
     }
 
-    clearTimeout(timeoutId);
-
     if (!emailResponse.ok) throw new Error('Failed to send confirmation email');
 
     return true;
@@ -178,6 +176,7 @@ const submitForm = async (): Promise<boolean> => {
     console.error('Form submission error:', error);
     return false;
   } finally {
+    clearTimeout(timeoutId);
     setIsSubmitting(false);
   }
 };
