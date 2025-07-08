@@ -17,4 +17,5 @@ export interface Host {
   id: string;
   name: string;
   title: string;
+  email: string;
 }

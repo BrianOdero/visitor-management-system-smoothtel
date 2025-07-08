@@ -12,6 +12,7 @@ export interface CompanyConfig {
     id: string;
     name: string;
     title: string;
+    email: string;
   }>;
   contact: {
     email: string;
@@ -35,27 +36,32 @@ export const companyConfig: CompanyConfig = {
     {
       id: 'raphael-mwangi',
       name: 'Raphael Mwangi',
-      title: 'Chief Executive Officer'
+      title: 'Chief Executive Officer',
+      email: 'raphael.mwangi@smoothtel.com'
     },
     {
       id: 'purity-mwende',
       name: 'Purity Mwende',
-      title: 'Chief Operations Officer'
+      title: 'Chief Operations Officer',
+      email: 'purity.mwende@smoothtel.com'
     },
     {
       id: 'edward-koikai',
       name: 'Edward Koikai',
-      title: 'Software Engineer'
+      title: 'Software Engineer',
+      email: 'edward.koikai@smoothtel.com'
     },
     {
       id: 'joan-lusweti',
       name: 'Joan Lusweti',
-      title: 'Sales Admin Team Lead'
+      title: 'Sales Admin Team Lead',
+      email: 'joan.lusweti@smoothtel.com'
     },
     {
       id: 'sarah-bosibori',
       name: 'Sarah Bosibori',
-      title: 'Human Resource Officer'
+      title: 'Human Resource Officer',
+      email: 'sarah.bosibori@smoothtel.com'
     }
   ],
   contact: {

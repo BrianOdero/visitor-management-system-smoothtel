@@ -35,7 +35,8 @@ export const companyConfig: CompanyConfig = {
     {
       id: 'host-1',
       name: 'John Doe',
-      title: 'CEO'
+      title: 'CEO',
+      email: 'john.doe@yourcompany.com'
     },
     // Add your team members
   ],
