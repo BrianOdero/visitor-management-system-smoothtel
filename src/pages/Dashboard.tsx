@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Search, Filter, Users, CheckCircle, XCircle, Clock, User, Mail, FileText, Building } from 'lucide-react';
 
 interface VisitorRecord {
@@ -10,10 +11,6 @@ interface VisitorRecord {
   status: 'approved' | 'rejected' | 'pending';
   visitDate: string;
   phoneNumber: string;
-}
-
-interface DashboardProps {
-  onBackToForm: () => void;
 }
 
 const DUMMY_VISITORS: VisitorRecord[] = [
@@ -69,9 +66,14 @@ const DUMMY_VISITORS: VisitorRecord[] = [
   }
 ];
 
-export const Dashboard: React.FC<DashboardProps> = ({ onBackToForm }) => {
+export const Dashboard: React.FC = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'approved' | 'rejected' | 'pending'>('all');
+
+  const handleBackToForm = () => {
+    navigate('/');
+  };
 
   const filteredVisitors = DUMMY_VISITORS.filter(visitor => {
     const matchesSearch = visitor.visitorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -124,7 +126,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onBackToForm }) => {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-4">
               <button
-                onClick={onBackToForm}
+                onClick={handleBackToForm}
                 className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors duration-200"
               >
                 <ArrowLeft className="w-5 h-5" />
