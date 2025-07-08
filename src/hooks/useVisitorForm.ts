@@ -95,6 +95,16 @@ export const useVisitorForm = () => {
         },
         selectedHost
       );
+
+      // Send email notification
+      const emailResult = await sendVisitorNotificationEmail(emailData);
+      
+      if (!emailResult.success) {
+        throw new Error(emailResult.error || 'Failed to send notification email');
+      }
+
+      console.log('Email sent successfully:', emailResult.messageId);
+      
       return true;
     } catch (error) {
       console.error('Form submission error:', error);
@@ -105,14 +115,6 @@ export const useVisitorForm = () => {
     }
   };
 
-      // Send email notification
-      const emailResult = await sendVisitorNotificationEmail(emailData);
-      
-      if (!emailResult.success) {
-        throw new Error(emailResult.error || 'Failed to send notification email');
-      }
-
-      console.log('Email sent successfully:', emailResult.messageId);
   return {
     formData,
     errors,
