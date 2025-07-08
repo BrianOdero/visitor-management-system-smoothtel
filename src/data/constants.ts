@@ -1,4 +1,5 @@
 import { CountryCode, Host } from '../types/visitor';
+import { companyConfig } from '../config/company';
 
 export const COUNTRY_CODES: CountryCode[] = [
   { code: '+254', country: 'Kenya', flag: '🇰🇪' },
@@ -17,30 +18,4 @@ export const COUNTRY_CODES: CountryCode[] = [
   { code: '+27', country: 'South Africa', flag: '🇿🇦' },
 ];
 
-export const HOSTS: Host[] = [
-  {
-    id: 'raphael-mwangi',
-    name: 'Raphael Mwangi',
-    title: 'Chief Executive Officer'
-  },
-  {
-    id: 'purity-mwende',
-    name: 'Purity Mwende',
-    title: 'Chief Operations Officer'
-  },
-  {
-    id: 'edward-koikai',
-    name: 'Edward Koikai',
-    title: 'Software Engineer'
-  },
-  {
-    id: 'joan-lusweti',
-    name: 'Joan Lusweti',
-    title: 'Sales Admin Team Lead'
-  },
-  {
-    id: 'sarah-bosibori',
-    name: 'Sarah Bosibori',
-    title: 'Human Resource Officer'
-  }
-];
+export const HOSTS: Host[] = companyConfig.hosts;

@@ -1,3 +1,75 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #2563eb;
+    --color-secondary: #f97316;
+    --color-accent: #059669;
+    --color-background: #f8fafc;
+    --color-surface: #ffffff;
+  }
+}
+
+@layer utilities {
+  .bg-brand-primary {
+    background-color: var(--color-primary);
+  }
+  
+  .bg-brand-secondary {
+    background-color: var(--color-secondary);
+  }
+  
+  .bg-brand-accent {
+    background-color: var(--color-accent);
+  }
+  
+  .bg-brand-gradient {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  }
+  
+  .text-brand-primary {
+    color: var(--color-primary);
+  }
+  
+  .text-brand-secondary {
+    color: var(--color-secondary);
+  }
+  
+  .border-brand-primary {
+    border-color: var(--color-primary);
+  }
+  
+  .ring-brand-primary {
+    --tw-ring-color: var(--color-primary);
+  }
+  
+  .bg-brand-primary-50 {
+    background-color: var(--color-primary-50);
+  }
+  
+  .bg-brand-primary-100 {
+    background-color: var(--color-primary-100);
+  }
+  
+  .bg-brand-primary-200 {
+    background-color: var(--color-primary-200);
+  }
+  
+  .bg-brand-secondary-50 {
+    background-color: var(--color-secondary-50);
+  }
+  
+  .bg-brand-secondary-100 {
+    background-color: var(--color-secondary-100);
+  }
+  
+  .hover\:bg-brand-primary-50:hover {
+    background-color: var(--color-primary-50);
+  }
+  
+  .hover\:shadow-brand:hover {
+    box-shadow: 0 10px 25px -3px var(--color-primary-200), 0 4px 6px -2px var(--color-primary-100);
+  }
+}

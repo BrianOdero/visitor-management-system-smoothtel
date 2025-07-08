@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Mail, Phone, FileText, Users, CheckCircle } from 'lucide-react';
+import { useCompanyConfig } from '../components/ThemeProvider';
 import { FormField } from '../components/FormField';
 import { PhoneInput } from '../components/PhoneInput';
 import { HostSelect } from '../components/HostSelect';
@@ -11,6 +12,7 @@ import { useNetworkOptimization } from '../hooks/useNetworkOptimization';
 
 export const VisitorForm: React.FC = () => {
   const navigate = useNavigate();
+  const config = useCompanyConfig();
   const { formData, errors, isSubmitting, updateField, submitForm } = useVisitorForm();
   const { networkInfo, isSlowConnection } = useNetworkOptimization();
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -50,10 +52,10 @@ export const VisitorForm: React.FC = () => {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-brand-primary-50 via-white to-brand-secondary-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 max-w-md w-full text-center">
           <div className="mb-6">
-            <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-green-500 mx-auto mb-4" />
+            <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-brand-accent mx-auto mb-4" />
             <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Registration Successful!</h2>
             <p className="text-sm sm:text-base text-gray-600">
               Thank you for registering. You will receive a confirmation email shortly.
@@ -62,13 +64,13 @@ export const VisitorForm: React.FC = () => {
           <div className="space-y-3">
             <button
               onClick={handleRegisterAnother}
-              className="w-full bg-gradient-to-r from-blue-600 to-orange-500 text-white py-3 px-6 rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 text-sm sm:text-base"
+              className="w-full bg-brand-gradient text-white py-3 px-6 rounded-lg font-medium hover:shadow-brand transform hover:scale-105 transition-all duration-200 text-sm sm:text-base"
             >
               Register Another Visitor
             </button>
             <button
               onClick={handleViewDashboard}
-              className="w-full bg-white border-2 border-blue-600 text-blue-600 py-3 px-6 rounded-lg font-medium hover:bg-blue-50 transition-all duration-200 text-sm sm:text-base"
+              className="w-full bg-white border-2 border-brand-primary text-brand-primary py-3 px-6 rounded-lg font-medium hover:bg-brand-primary-50 transition-all duration-200 text-sm sm:text-base"
             >
               View Dashboard
             </button>
@@ -79,15 +81,15 @@ export const VisitorForm: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 flex items-center justify-center p-3 sm:p-4">
+    <div className="min-h-screen bg-gradient-to-br from-brand-primary-50 via-white to-brand-secondary-50 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-lg sm:max-w-xl lg:max-w-3xl">
         {/* Header with Large Logo */}
-        <div className="bg-gradient-to-r from-blue-600 to-orange-500 p-6 sm:p-8 lg:p-12 text-center">
+        <div className="bg-brand-gradient p-6 sm:p-8 lg:p-12 text-center">
           <div className="mb-6 sm:mb-8">
             <div className="bg-white rounded-xl p-4 sm:p-6 lg:p-8 shadow-lg inline-block">
               <OptimizedImage
-                src="/smoothtel_logo.png" 
-                alt="Smoothtel Logo" 
+                src={config.logo} 
+                alt={`${config.name} Logo`} 
                 className="h-16 sm:h-20 md:h-24 lg:h-32 xl:h-36 mx-auto object-contain"
                 priority={true}
                 width={144}
@@ -106,7 +108,7 @@ export const VisitorForm: React.FC = () => {
               <p className="text-sm">Slow connection detected. Form submission may take longer.</p>
             </div>
           )}
-          <p className="text-blue-100 text-sm sm:text-base lg:text-lg">
+          <p className="text-white/80 text-sm sm:text-base lg:text-lg">
             Please fill out the form below to register your visit
           </p>
         </div>
@@ -128,6 +130,9 @@ export const VisitorForm: React.FC = () => {
                 className={`w-full border rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
                   errors.visitorName ? 'border-red-300' : 'border-gray-300'
                 }`}
+                style={{
+                  '--tw-ring-color': 'var(--color-primary)'
+                } as React.CSSProperties}
               />
             </FormField>
 
@@ -140,6 +145,9 @@ export const VisitorForm: React.FC = () => {
                 className={`w-full border rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
                   errors.visitorEmail ? 'border-red-300' : 'border-gray-300'
                 }`}
+                style={{
+                  '--tw-ring-color': 'var(--color-primary)'
+                } as React.CSSProperties}
               />
             </FormField>
           </div>
@@ -163,6 +171,9 @@ export const VisitorForm: React.FC = () => {
               className={`w-full border rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none ${
                 errors.purposeOfVisit ? 'border-red-300' : 'border-gray-300'
               }`}
+              style={{
+                '--tw-ring-color': 'var(--color-primary)'
+              } as React.CSSProperties}
             />
           </FormField>
 
@@ -177,7 +188,7 @@ export const VisitorForm: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-blue-600 to-orange-500 text-white py-3 px-6 rounded-lg font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-sm sm:text-base"
+            className="w-full bg-brand-gradient text-white py-3 px-6 rounded-lg font-medium hover:shadow-brand transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-sm sm:text-base"
           >
             {isSubmitting ? (
               <div className="flex items-center justify-center gap-2">

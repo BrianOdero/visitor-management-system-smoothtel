@@ -13,7 +13,7 @@ export const FormField: React.FC<FormFieldProps> = ({ icon: Icon, label, error, 
     <div className="space-y-2">
       <label className="block text-sm font-medium text-gray-700">
         <div className="flex items-center gap-2 mb-2">
-          <Icon className="w-4 h-4 text-blue-600 flex-shrink-0" />
+          <Icon className="w-4 h-4 text-brand-primary flex-shrink-0" />
           <span className="text-xs sm:text-sm">{label}</span>
         </div>
       </label>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Filter, Users, CheckCircle, XCircle, Clock, User, Mail, FileText, Building } from 'lucide-react';
+import { useCompanyConfig } from '../components/ThemeProvider';
 import { OptimizedImage } from '../components/OptimizedImage';
 
 interface VisitorRecord {
@@ -67,6 +68,7 @@ const DUMMY_VISITORS: VisitorRecord[] = [
 ];
 
 export const Dashboard: React.FC = () => {
+  const config = useCompanyConfig();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | 'approved' | 'rejected' | 'pending'>('all');
 
@@ -115,15 +117,15 @@ export const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50">
+    <div className="min-h-screen bg-gradient-to-br from-brand-primary-50 via-white to-brand-secondary-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
                 <OptimizedImage
-                  src="/smoothtel_logo.png" 
-                  alt="Smoothtel Logo" 
+                  src={config.logo} 
+                  alt={`${config.name} Logo`} 
                   className="h-8 sm:h-10 object-contain"
                   priority={true}
                   width={40}
@@ -131,7 +133,7 @@ export const Dashboard: React.FC = () => {
                 />
                 <div className="hidden sm:block">
                   <h1 className="text-lg font-bold text-gray-900">Visitor Dashboard</h1>
-                  <p className="text-sm text-gray-500">Manage visitor registrations</p>
+                  <p className="text-sm text-gray-500">Manage visitor registrations for {config.name}</p>
                 </div>
             </div>
           </div>
@@ -143,8 +145,8 @@ export const Dashboard: React.FC = () => {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <div className="bg-white rounded-lg p-4 shadow-sm border">
             <div className="flex items-center gap-3">
-              <div className="bg-blue-100 p-2 rounded-lg">
-                <Users className="w-5 h-5 text-blue-600" />
+              <div className="bg-brand-primary-100 p-2 rounded-lg">
+                <Users className="w-5 h-5 text-brand-primary" />
               </div>
               <div>
                 <p className="text-sm text-gray-600">Total Visitors</p>
@@ -155,8 +157,8 @@ export const Dashboard: React.FC = () => {
           
           <div className="bg-white rounded-lg p-4 shadow-sm border">
             <div className="flex items-center gap-3">
-              <div className="bg-green-100 p-2 rounded-lg">
-                <CheckCircle className="w-5 h-5 text-green-600" />
+              <div className="bg-brand-accent p-2 rounded-lg bg-opacity-20">
+                <CheckCircle className="w-5 h-5 text-brand-accent" />
               </div>
               <div>
                 <p className="text-sm text-gray-600">Approved</p>
@@ -167,8 +169,8 @@ export const Dashboard: React.FC = () => {
           
           <div className="bg-white rounded-lg p-4 shadow-sm border">
             <div className="flex items-center gap-3">
-              <div className="bg-yellow-100 p-2 rounded-lg">
-                <Clock className="w-5 h-5 text-yellow-600" />
+              <div className="bg-brand-secondary-100 p-2 rounded-lg">
+                <Clock className="w-5 h-5 text-brand-secondary" />
               </div>
               <div>
                 <p className="text-sm text-gray-600">Pending</p>
@@ -208,7 +210,7 @@ export const Dashboard: React.FC = () => {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value as any)}
-                className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 ring-brand-primary focus:border-transparent"
               >
                 <option value="all">All Status</option>
                 <option value="approved">Approved</option>
@@ -237,8 +239,8 @@ export const Dashboard: React.FC = () => {
                   <tr key={visitor.id} className="hover:bg-gray-50 transition-colors duration-150">
                     <td className="py-4 px-4">
                       <div className="flex items-center gap-3">
-                        <div className="bg-blue-100 p-2 rounded-full">
-                          <User className="w-4 h-4 text-blue-600" />
+                        <div className="bg-brand-primary-100 p-2 rounded-full">
+                          <User className="w-4 h-4 text-brand-primary" />
                         </div>
                         <div>
                           <p className="font-medium text-gray-900 text-sm">{visitor.visitorName}</p>
@@ -290,8 +292,8 @@ export const Dashboard: React.FC = () => {
             <div key={visitor.id} className="bg-white rounded-lg shadow-sm border p-4">
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <div className="bg-blue-100 p-2 rounded-full">
-                    <User className="w-4 h-4 text-blue-600" />
+                  <div className="bg-brand-primary-100 p-2 rounded-full">
+                    <User className="w-4 h-4 text-brand-primary" />
                   </div>
                   <div>
                     <p className="font-medium text-gray-900 text-sm">{visitor.visitorName}</p>

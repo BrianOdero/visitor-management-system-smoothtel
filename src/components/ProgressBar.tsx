@@ -29,7 +29,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ progress }) => {
         <span className="text-xs sm:text-sm font-medium text-gray-600">
           Form Completion
         </span>
-        <span className="text-xs sm:text-sm font-bold text-blue-600">
+        <span className="text-xs sm:text-sm font-bold text-brand-primary">
           {progress}%
         </span>
       </div>

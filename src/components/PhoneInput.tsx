@@ -36,7 +36,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
         <select
           value={countryCode}
           onChange={(e) => onCountryCodeChange(e.target.value)}
-          className={`w-full sm:w-auto appearance-none bg-white border rounded-lg px-3 py-2.5 sm:py-3 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
+          className={`w-full sm:w-auto appearance-none bg-white border rounded-lg px-3 py-2.5 sm:py-3 pr-8 text-sm focus:outline-none focus:ring-2 ring-brand-primary focus:border-transparent transition-all duration-200 ${
             error ? 'border-red-300' : 'border-gray-300'
           }`}
         >
@@ -54,7 +54,7 @@ export const PhoneInput: React.FC<PhoneInputProps> = ({
         value={phoneNumber}
         onChange={handlePhoneNumberChange}
         placeholder="Enter phone number"
-        className={`flex-1 border rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
+        className={`flex-1 border rounded-lg px-3 sm:px-4 py-2.5 sm:py-3 text-sm focus:outline-none focus:ring-2 ring-brand-primary focus:border-transparent transition-all duration-200 ${
           error ? 'border-red-300' : 'border-gray-300'
         }`}
       />
