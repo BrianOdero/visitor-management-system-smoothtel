@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { VisitorFormData } from '../types/visitor';
+import { HOSTS } from '../data/constants';
+import { sendVisitorNotificationEmail, generateVisitorNotificationEmail } from '../services/emailService';
 
 interface FormErrors {
   visitorName?: string;
@@ -75,31 +77,42 @@ export const useVisitorForm = () => {
     setIsSubmitting(true);
     
     try {
-      // Simulate API call - replace with actual NestJS endpoint
-      const response = await fetch('/api/visitors', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          fullPhoneNumber: `${formData.countryCode}${formData.phoneNumber}`
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to submit form');
+      // Find the selected host
+      const selectedHost = HOSTS.find(host => host.id === formData.host);
+      
+      if (!selectedHost) {
+        throw new Error('Selected host not found');
       }
 
+      // Generate email content
+      const emailData = generateVisitorNotificationEmail(
+        {
+          visitorName: formData.visitorName,
+          visitorEmail: formData.visitorEmail,
+          phoneNumber: formData.phoneNumber,
+          countryCode: formData.countryCode,
+          purposeOfVisit: formData.purposeOfVisit,
+        },
+        selectedHost
+      );
       return true;
     } catch (error) {
       console.error('Form submission error:', error);
+      // You might want to show a user-friendly error message here
       return false;
     } finally {
       setIsSubmitting(false);
     }
   };
 
+      // Send email notification
+      const emailResult = await sendVisitorNotificationEmail(emailData);
+      
+      if (!emailResult.success) {
+        throw new Error(emailResult.error || 'Failed to send notification email');
+      }
+
+      console.log('Email sent successfully:', emailResult.messageId);
   return {
     formData,
     errors,

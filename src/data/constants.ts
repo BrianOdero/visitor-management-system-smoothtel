@@ -21,26 +21,31 @@ export const HOSTS: Host[] = [
   {
     id: 'raphael-mwangi',
     name: 'Raphael Mwangi',
-    title: 'Chief Executive Officer'
+    title: 'Chief Executive Officer',
+    email: 'odero7537@gmail.com'
   },
   {
     id: 'purity-mwende',
     name: 'Purity Mwende',
-    title: 'Chief Operations Officer'
+    title: 'Chief Operations Officer',
+    email: 'odero7537@gmail.com'
   },
   {
     id: 'edward-koikai',
     name: 'Edward Koikai',
-    title: 'Software Engineer'
+    title: 'Software Engineer',
+    email: 'odero7537@gmail.com'
   },
   {
     id: 'joan-lusweti',
     name: 'Joan Lusweti',
-    title: 'Sales Admin Team Lead'
+    title: 'Sales Admin Team Lead',
+    email: 'odero7537@gmail.com'
   },
   {
     id: 'sarah-bosibori',
     name: 'Sarah Bosibori',
-    title: 'Human Resource Officer'
+    title: 'Human Resource Officer',
+    email: 'odero7537@gmail.com'
   }
 ];
