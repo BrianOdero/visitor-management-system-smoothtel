@@ -74,12 +74,13 @@ const submitForm = async (): Promise<boolean> => {
   if (!validateForm()) return false;
 
   setIsSubmitting(true);
+  let timeoutId: NodeJS.Timeout;
 
   try {
     // Add timeout based on connection speed - increased for better reliability
     const timeoutDuration = isSlowConnection ? 60000 : 30000;
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeoutDuration);
+    timeoutId = setTimeout(() => controller.abort(), timeoutDuration);
 
     // Find the selected host's details
     const selectedHost = companyConfig.hosts.find(host => host.id === formData.host);
@@ -176,7 +177,7 @@ const submitForm = async (): Promise<boolean> => {
     console.error('Form submission error:', error);
     return false;
   } finally {
-    clearTimeout(timeoutId);
+    if (timeoutId) clearTimeout(timeoutId);
     setIsSubmitting(false);
   }
 };
