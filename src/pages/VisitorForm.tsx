@@ -68,12 +68,12 @@ export const VisitorForm: React.FC = () => {
             >
               Register Another Visitor
             </button>
-            <button
+            {/* <button
               onClick={handleViewDashboard}
               className="w-full bg-white border-2 border-brand-primary text-brand-primary py-3 px-6 rounded-lg font-medium hover:bg-brand-primary-50 transition-all duration-200 text-sm sm:text-base"
             >
               View Dashboard
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

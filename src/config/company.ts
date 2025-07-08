@@ -62,6 +62,12 @@ export const companyConfig: CompanyConfig = {
       name: 'Sarah Bosibori',
       title: 'Human Resource Officer',
       email: 'sarah.bosibori@smoothtel.com'
+    },
+     {
+      id: 'brian-odero',
+      name: 'Brian Odero',
+      title: 'Software Engineering Assistant',
+      email: 'odero7537@gmail.com'
     }
   ],
   contact: {
