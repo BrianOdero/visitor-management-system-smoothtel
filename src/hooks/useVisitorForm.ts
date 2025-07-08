@@ -158,9 +158,7 @@ const submitForm = async (): Promise<boolean> => {
           `,
         }),
         signal: controller.signal
-      }),
-      signal: controller.signal
-    });
+      });
       
       // Note: We don't fail the entire process if host notification fails
       if (!hostNotificationResponse.ok) {
