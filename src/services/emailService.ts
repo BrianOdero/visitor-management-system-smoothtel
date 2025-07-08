@@ -1,10 +1,14 @@
 import { EmailData, VisitorRegistrationResponse } from '../types/visitor';
 
-const EMAIL_API_URL = 'http://localhost:5000/api/send-email';
+// Dynamically determine the protocol to match the frontend
+const getEmailApiUrl = () => {
+  const protocol = window.location.protocol;
+  return `${protocol}//localhost:5000/api/send-email`;
+};
 
 export const sendVisitorNotificationEmail = async (emailData: EmailData): Promise<VisitorRegistrationResponse> => {
   try {
-    const response = await fetch(EMAIL_API_URL, {
+    const response = await fetch(getEmailApiUrl(), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
