@@ -5,11 +5,14 @@ import { FormField } from '../components/FormField';
 import { PhoneInput } from '../components/PhoneInput';
 import { HostSelect } from '../components/HostSelect';
 import { ProgressBar } from '../components/ProgressBar';
+import { OptimizedImage } from '../components/OptimizedImage';
 import { useVisitorForm } from '../hooks/useVisitorForm';
+import { useNetworkOptimization } from '../hooks/useNetworkOptimization';
 
 export const VisitorForm: React.FC = () => {
   const navigate = useNavigate();
   const { formData, errors, isSubmitting, updateField, submitForm } = useVisitorForm();
+  const { networkInfo, isSlowConnection } = useNetworkOptimization();
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Calculate progress based on filled fields
@@ -82,14 +85,27 @@ export const VisitorForm: React.FC = () => {
         <div className="bg-gradient-to-r from-blue-600 to-orange-500 p-6 sm:p-8 lg:p-12 text-center">
           <div className="mb-6 sm:mb-8">
             <div className="bg-white rounded-xl p-4 sm:p-6 lg:p-8 shadow-lg inline-block">
-              <img 
+              <OptimizedImage
                 src="/smoothtel_logo.png" 
                 alt="Smoothtel Logo" 
                 className="h-16 sm:h-20 md:h-24 lg:h-32 xl:h-36 mx-auto object-contain"
+                priority={true}
+                width={144}
+                height={144}
               />
             </div>
           </div>
           <h1 className="text-white text-xl sm:text-2xl lg:text-3xl font-bold mb-2">Visitor Registration</h1>
+          {!networkInfo.isOnline && (
+            <div className="bg-red-500 text-white px-4 py-2 rounded-lg mb-4">
+              <p className="text-sm">You're currently offline. Please check your connection.</p>
+            </div>
+          )}
+          {isSlowConnection && networkInfo.isOnline && (
+            <div className="bg-yellow-500 text-white px-4 py-2 rounded-lg mb-4">
+              <p className="text-sm">Slow connection detected. Form submission may take longer.</p>
+            </div>
+          )}
           <p className="text-blue-100 text-sm sm:text-base lg:text-lg">
             Please fill out the form below to register your visit
           </p>

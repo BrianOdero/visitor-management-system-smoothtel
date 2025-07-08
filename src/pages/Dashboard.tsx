@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Filter, Users, CheckCircle, XCircle, Clock, User, Mail, FileText, Building } from 'lucide-react';
+import { OptimizedImage } from '../components/OptimizedImage';
 
 interface VisitorRecord {
   id: string;
@@ -120,10 +121,13 @@ export const Dashboard: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-                <img 
+                <OptimizedImage
                   src="/smoothtel_logo.png" 
                   alt="Smoothtel Logo" 
                   className="h-8 sm:h-10 object-contain"
+                  priority={true}
+                  width={40}
+                  height={40}
                 />
                 <div className="hidden sm:block">
                   <h1 className="text-lg font-bold text-gray-900">Visitor Dashboard</h1>

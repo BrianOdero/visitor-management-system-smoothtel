@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { VisitorFormData } from '../types/visitor';
+import { useNetworkOptimization } from './useNetworkOptimization';
 
 interface FormErrors {
   visitorName?: string;
@@ -10,6 +11,7 @@ interface FormErrors {
 }
 
 export const useVisitorForm = () => {
+  const { isSlowConnection } = useNetworkOptimization();
   const [formData, setFormData] = useState<VisitorFormData>({
     visitorName: '',
     visitorEmail: '',
@@ -73,6 +75,11 @@ const submitForm = async (): Promise<boolean> => {
   setIsSubmitting(true);
 
   try {
+    // Add timeout based on connection speed
+    const timeoutDuration = isSlowConnection ? 30000 : 15000;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutDuration);
+
     // Step 1: Submit visitor data (e.g., to DB or NestJS)
     // const response = await fetch('/api/visitors', {
     //   method: 'POST',
@@ -83,6 +90,7 @@ const submitForm = async (): Promise<boolean> => {
     //     ...formData,
     //     fullPhoneNumber: `${formData.countryCode}${formData.phoneNumber}`
     //   }),
+    //   signal: controller.signal
     // });
 
     // if (!response.ok) throw new Error('Failed to submit form');
@@ -99,12 +107,18 @@ const submitForm = async (): Promise<boolean> => {
         text: `Hi ${formData.visitorName}, your visit has been confirmed.`,
         html: `<p>Hi <strong>${formData.visitorName}</strong>,</p><p>Your visit to see ${formData.host} has been confirmed. We look forward to seeing you!</p>`,
       }),
+      signal: controller.signal
     });
+
+    clearTimeout(timeoutId);
 
     if (!emailResponse.ok) throw new Error('Failed to send confirmation email');
 
     return true;
   } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      console.error('Request timed out');
+    }
     console.error('Form submission error:', error);
     return false;
   } finally {
