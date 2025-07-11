@@ -4,6 +4,8 @@ import { useNetworkOptimization } from './useNetworkOptimization';
 import { companyConfig } from '../config/company';
 import { sendEmailsBatch } from '../utils/emailService';
 import { generateVisitorEmailTemplate, generateHostEmailTemplate, generateVisitorTextTemplate, generateHostTextTemplate } from '../utils/emailTemplates';
+
+interface FormErrors {
   visitorName?: string;
   visitorEmail?: string;
   phoneNumber?: string;
@@ -115,6 +117,7 @@ export const useVisitorForm = () => {
                 <div style="display: flex; align-items: center; padding: 8px 0;">
                   <span style="color: #6b7280; font-weight: 500; min-width: 120px;">💼 Title:</span>
                   <span style="color: #374151;">${selectedHost?.title}</span>
+                </div>
               </div>
               
               <div style="text-align: center; margin: 30px 0;">
@@ -152,24 +155,27 @@ export const useVisitorForm = () => {
               </div>
             </div>
           </div>
-        `;
+        </div>`;
 
         const hostNotificationResponse = await fetch('https://vms-backend-86ch.onrender.com/api/send-email', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        const emails = [];
+        
         emails.push({
           to: hostEmail,
           subject: `New Visitor Registration - ${formData.visitorName}`,
           text: generateHostTextTemplate(formData),
           html: generateHostEmailTemplate(formData, companyConfig, selectedHost!)
         });
-        });
         
         if (!hostNotificationResponse.ok) {
           console.warn('Failed to send host notification email');
         }
-      }
 
       // Send all emails in parallel
       const results = await sendEmailsBatch(emails, controller.signal);
