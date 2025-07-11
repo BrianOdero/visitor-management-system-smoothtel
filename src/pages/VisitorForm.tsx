@@ -33,9 +33,15 @@ export const VisitorForm: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (isSubmitting) return; // Prevent double submission
+    
     const success = await submitForm();
     if (success) {
       setIsSubmitted(true);
+    } else {
+      // Handle submission failure - form will automatically reset isSubmitting in the hook
+      console.error('Form submission failed');
     }
   };
 
