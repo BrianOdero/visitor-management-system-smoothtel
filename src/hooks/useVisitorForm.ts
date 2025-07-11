@@ -2,8 +2,8 @@ import { useState, useRef } from 'react';
 import { VisitorFormData } from '../types/visitor';
 import { useNetworkOptimization } from './useNetworkOptimization';
 import { companyConfig } from '../config/company';
-
-interface FormErrors {
+import { sendEmailsBatch } from '../utils/emailService';
+import { generateVisitorEmailTemplate, generateHostEmailTemplate, generateVisitorTextTemplate, generateHostTextTemplate } from '../utils/emailTemplates';
   visitorName?: string;
   visitorEmail?: string;
   phoneNumber?: string;
@@ -82,7 +82,7 @@ export const useVisitorForm = () => {
 
       const selectedHost = companyConfig.hosts.find(host => host.id === formData.host);
       const hostEmail = selectedHost?.email;
-      const hostName = selectedHost?.name;
+      const hostName = selectedHost?.name || 'Unknown Host';
 
       const visitorEmailHtml = `
         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
@@ -115,111 +115,6 @@ export const useVisitorForm = () => {
                 <div style="display: flex; align-items: center; padding: 8px 0;">
                   <span style="color: #6b7280; font-weight: 500; min-width: 120px;">💼 Title:</span>
                   <span style="color: #374151;">${selectedHost?.title}</span>
-                </div>
-                <div style="display: flex; align-items: center; padding: 8px 0;">
-                  <span style="color: #6b7280; font-weight: 500; min-width: 120px;">📝 Purpose:</span>
-                  <span style="color: #374151;">${formData.purposeOfVisit}</span>
-                </div>
-                <div style="display: flex; align-items: center; padding: 8px 0;">
-                  <span style="color: #6b7280; font-weight: 500; min-width: 120px;">📞 Contact:</span>
-                  <span style="color: #374151;">${formData.countryCode}${formData.phoneNumber}</span>
-                </div>
-                <div style="display: flex; align-items: center; padding: 8px 0;">
-                  <span style="color: #6b7280; font-weight: 500; min-width: 120px;">📧 Email:</span>
-                  <span style="color: #374151;">${formData.visitorEmail}</span>
-                </div>
-              </div>
-            </div>
-            
-            
-            <div style="background-color: #fef3c7; border: 1px solid #fbbf24; border-radius: 8px; padding: 15px; margin: 25px 0;">
-              <p style="color: #92400e; margin: 0; font-size: 14px; line-height: 1.5;">
-                <strong>📍 Important:</strong> Please arrive 10 minutes before your scheduled time and bring a valid ID for security verification.
-              </p>
-            </div>
-            
-            <p style="color: #374151; font-size: 16px; line-height: 1.6; margin-top: 25px;">
-              We look forward to welcoming you to our office!
-            </p>
-          </div>
-          
-          <div style="background-color: #f9fafb; padding: 20px; text-align: center; border-radius: 0 0 12px 12px; border-top: 1px solid #e5e7eb;">
-            <p style="color: #6b7280; margin: 0 0 10px 0; font-size: 14px;">
-              Best regards,<br/>
-              <strong style="color: ${companyConfig.colors.primary};">${companyConfig.name} Team</strong>
-            </p>
-            <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #e5e7eb;">
-              <p style="color: #9ca3af; font-size: 12px; margin: 0;">
-                ${companyConfig.contact.address} | ${companyConfig.contact.phone} | ${companyConfig.contact.email}
-              </p>
-              <p style="color: #9ca3af; font-size: 11px; margin: 5px 0 0 0;">
-                This is an automated message from ${companyConfig.name} Visitor Management System
-              </p>
-            </div>
-          </div>
-        </div>
-      `;
-
-      const emailResponse = await fetch('https://vms-backend-86ch.onrender.com/api/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          to: formData.visitorEmail,
-          subject: 'Visit Confirmation',
-          text: `Hi ${formData.visitorName}, your visit to see ${hostName} has been confirmed.`,
-          html: visitorEmailHtml
-        }),
-        signal: controller.signal
-      });
-
-      if (hostEmail) {
-        const hostEmailHtml = `
-          <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; background-color: #ffffff;">
-            <div style="background: linear-gradient(135deg, ${companyConfig.colors.primary}, ${companyConfig.colors.secondary}); padding: 30px 20px; text-align: center; border-radius: 12px 12px 0 0;">
-              <div style="background-color: #ffffff; padding: 15px; border-radius: 12px; display: inline-block; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                <img src="${window.location.origin}${companyConfig.logo}" alt="${companyConfig.name} Logo" style="height: 60px; width: auto; object-fit: contain;" />
-              </div>
-              <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 600;">New Visitor Registration</h1>
-              <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 16px;">You have a new visitor scheduled</p>
-            </div>
-            
-            <div style="padding: 30px 20px;">
-              <p style="color: #374151; font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
-                Hi <strong style="color: ${companyConfig.colors.primary};">${hostName}</strong>,
-              </p>
-              
-              <p style="color: #374151; font-size: 16px; line-height: 1.6; margin-bottom: 25px;">
-                You have received a new visitor registration. Please review the details below and take appropriate action.
-              </p>
-              
-              <div style="background: linear-gradient(135deg, #f8fafc, #e2e8f0); border: 1px solid #e5e7eb; border-radius: 12px; padding: 25px; margin: 25px 0;">
-                <h3 style="color: ${companyConfig.colors.primary}; margin: 0 0 20px 0; font-size: 20px; font-weight: 600; border-bottom: 2px solid ${companyConfig.colors.primary}; padding-bottom: 10px;">
-                  👤 Visitor Information
-                </h3>
-                <div style="display: grid; gap: 12px;">
-                  <div style="display: flex; align-items: center; padding: 8px 0;">
-                    <span style="color: #6b7280; font-weight: 500; min-width: 120px;">📝 Name:</span>
-                    <span style="color: #374151; font-weight: 600;">${formData.visitorName}</span>
-                  </div>
-                  <div style="display: flex; align-items: center; padding: 8px 0;">
-                    <span style="color: #6b7280; font-weight: 500; min-width: 120px;">📧 Email:</span>
-                    <span style="color: #374151;">${formData.visitorEmail}</span>
-                  </div>
-                  <div style="display: flex; align-items: center; padding: 8px 0;">
-                    <span style="color: #6b7280; font-weight: 500; min-width: 120px;">📞 Phone:</span>
-                    <span style="color: #374151;">${formData.countryCode}${formData.phoneNumber}</span>
-                  </div>
-                  <div style="display: flex; align-items: center; padding: 8px 0;">
-                    <span style="color: #6b7280; font-weight: 500; min-width: 120px;">💼 Purpose:</span>
-                    <span style="color: #374151;">${formData.purposeOfVisit}</span>
-                  </div>
-                  <div style="display: flex; align-items: center; padding: 8px 0;">
-                    <span style="color: #6b7280; font-weight: 500; min-width: 120px;">📅 Requested:</span>
-                    <span style="color: #374151;">${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</span>
-                  </div>
-                </div>
               </div>
               
               <div style="text-align: center; margin: 30px 0;">
@@ -263,14 +158,12 @@ export const useVisitorForm = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            to: hostEmail,
-            subject: `New Visitor Registration - ${formData.visitorName}`,
-            text: `You have a new visitor: ${formData.visitorName} (${formData.visitorEmail}) scheduled to visit for: ${formData.purposeOfVisit}`,
-            html: hostEmailHtml
-          }),
-          signal: controller.signal
+        emails.push({
+          to: hostEmail,
+          subject: `New Visitor Registration - ${formData.visitorName}`,
+          text: generateHostTextTemplate(formData),
+          html: generateHostEmailTemplate(formData, companyConfig, selectedHost!)
+        });
         });
         
         if (!hostNotificationResponse.ok) {
@@ -278,8 +171,8 @@ export const useVisitorForm = () => {
         }
       }
 
-      if (!emailResponse.ok) throw new Error('Failed to send confirmation email');
-
+      // Send all emails in parallel
+      const results = await sendEmailsBatch(emails, controller.signal);
       return true;
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {

@@ -119,7 +119,7 @@ export const VisitorForm: React.FC = () => {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
+        <form onSubmit={handleOptimisticSubmit} className="p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             <FormField icon={User} label="Visitor Name" error={errors.visitorName}>
               <input
@@ -188,15 +188,18 @@ export const VisitorForm: React.FC = () => {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-brand-gradient text-white py-3 px-6 rounded-lg font-medium hover:shadow-brand transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-sm sm:text-base"
+            className="w-full bg-brand-gradient text-white py-3 px-6 rounded-lg font-medium hover:shadow-brand transform hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-sm sm:text-base relative overflow-hidden"
           >
             {isSubmitting ? (
               <div className="flex items-center justify-center gap-2">
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Submitting...
+                <span>Submitting...</span>
               </div>
             ) : (
-              'Submit Registration'
+              <>
+                <span>Submit Registration</span>
+                <div className="absolute inset-0 bg-white bg-opacity-20 transform -translate-x-full group-hover:translate-x-full transition-transform duration-500"></div>
+              </>
             )}
           </button>
         </form>
