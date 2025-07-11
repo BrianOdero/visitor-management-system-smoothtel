@@ -119,7 +119,7 @@ export const VisitorForm: React.FC = () => {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleOptimisticSubmit} className="p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             <FormField icon={User} label="Visitor Name" error={errors.visitorName}>
               <input
